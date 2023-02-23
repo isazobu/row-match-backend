@@ -28,7 +28,7 @@
 
 
 # Tables
- User
+User
 ---------------------------------
 - id: Long
 - name: String
