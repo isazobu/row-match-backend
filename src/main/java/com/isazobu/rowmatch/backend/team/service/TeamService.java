@@ -20,7 +20,7 @@ public interface TeamService {
      * @throws TeamCapacityFullException  if the maximum number of teams (20) has been reached
      */
     Team createTeam(CreateTeamRequest request, String token)
-            throws TeamNameExistsException, UserNotFoundException, UserCoinNotEnoughException, TeamCapacityFullException;
+            throws TeamNameExistsException, UserNotFoundException, UserCoinNotEnoughException, TeamCapacityFullException, NotEnoughCoinsException;
 
     /**
      * Adds the user with the given userId to the team with the given teamId.
@@ -40,7 +40,7 @@ public interface TeamService {
 
     Team joinTeam(Long teamId, String token)
             throws TeamNotFoundException, UserNotFoundException, TeamCapacityFullException, UserAlreadyInTeamException,
-            TeamJoinNotAllowedException;
+            TeamJoinNotAllowedException, NotEnoughCoinsException;
 
 
     // leaveTeam

@@ -29,7 +29,7 @@ public class TeamServiceImpl implements TeamService {
         this.userRepository = userRepository;
     }
 
-    public Team createTeam(CreateTeamRequest request, String token) {
+    public Team createTeam(CreateTeamRequest request, String token) throws NotEnoughCoinsException {
         User user = userRepository.findByToken(token)
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
@@ -43,12 +43,19 @@ public class TeamServiceImpl implements TeamService {
             throw new EntityAlreadyExistsException("Team name already exists");
         }
 
+        if(user.getCoins() < 1000){
+            throw new NotEnoughCoinsException("Not enough coins");
+        }
+
+        user.setCoins(user.getCoins() - 1000);
+
+
         // create team and add the user to it
         Team team = new Team();
         team.setName(teamName);
         team.addUsers(user);
 
-
+        userRepository.save(user);
         return teamRepository.save(team);
     }
 
@@ -63,7 +70,7 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public Team joinTeam(Long teamId, String token) {
+    public Team joinTeam(Long teamId, String token) throws NotEnoughCoinsException {
 
         Team team = teamRepository.findById(teamId)
                 .orElseThrow(() -> new TeamNotFoundException("Team not found"));
@@ -79,7 +86,12 @@ public class TeamServiceImpl implements TeamService {
         if (user.getTeam() != null) {
             throw new UserAlreadyInTeamException("User already has a team");
         }
+        if(user.getCoins() < 1000){
+            throw new NotEnoughCoinsException("Not enough coins");
+        }
 
+        user.setCoins(user.getCoins() - 1000);
+        userRepository.save(user);
 
         team.addUsers(user);
         return teamRepository.save(team);
