@@ -27,6 +27,8 @@
 * Consider implementing security measures like SSL/TLS encryption and OWASP Top 10 vulnerabilities testing
 * Introduce performance optimization techniques like code profiling and optimization to ensure optimal performance and reduce resource usage
 
+# Swagger Documentation
+http://localhost:8000/swagger-ui/index.html
 
 # Tables
 User
