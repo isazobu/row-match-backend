@@ -1,6 +1,7 @@
 package com.isazobu.rowmatch.backend.user.controller;
 
 import com.isazobu.rowmatch.backend.user.dto.CreateUserRequest;
+import com.isazobu.rowmatch.backend.user.dto.UpdateLevelRequest;
 import com.isazobu.rowmatch.backend.user.model.User;
 import com.isazobu.rowmatch.backend.user.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -28,18 +29,14 @@ public class UserController {
 
 
     @PutMapping
-    public ResponseEntity<User> updateLevel(@RequestHeader("Authorization") String token) {
+    public ResponseEntity<UpdateLevelRequest> updateLevel(@RequestHeader("Authorization") String token) {
         if (token == null || token.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
-        User user = userService.verifyToken(token);
 
-        if (user == null) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
 
-        user = userService.updateLevel(user);
+        UpdateLevelRequest user = userService.updateLevel(token);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 

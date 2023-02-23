@@ -1,6 +1,7 @@
 package com.isazobu.rowmatch.backend.user.controller;
 
 import com.isazobu.rowmatch.backend.user.dto.CreateUserRequest;
+import com.isazobu.rowmatch.backend.user.dto.UpdateLevelRequest;
 import com.isazobu.rowmatch.backend.user.model.User;
 import com.isazobu.rowmatch.backend.user.service.UserService;
 import org.junit.Test;
@@ -49,16 +50,18 @@ public class UserControllerTest {
         // Arrange
         String token = "validToken";
 
-        User user = new User();
+        UpdateLevelRequest user = new UpdateLevelRequest();
         user.setId(1L);
         user.setName("John");
-        user.setToken(token);
+        user.setLevel(1);
+        user.setCoins(5000);
 
-        when(userService.verifyToken(token)).thenReturn(user);
-        when(userService.updateLevel(user)).thenReturn(user);
+
+
+        when(userService.updateLevel(token)).thenReturn(user);
 
         // Act
-        ResponseEntity<User> response = userController.updateLevel(token);
+        ResponseEntity<UpdateLevelRequest> response = userController.updateLevel(token);
 
         // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());

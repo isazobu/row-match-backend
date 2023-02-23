@@ -2,6 +2,7 @@ package com.isazobu.rowmatch.backend.user.service;
 
 import com.isazobu.rowmatch.backend.exceptions.EntityAlreadyExistsException;
 import com.isazobu.rowmatch.backend.user.dto.CreateUserRequest;
+import com.isazobu.rowmatch.backend.user.dto.UpdateLevelRequest;
 import com.isazobu.rowmatch.backend.user.model.User;
 import com.isazobu.rowmatch.backend.user.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -96,11 +97,11 @@ public class UserServiceImplTest {
         user.setId(1L);
         user.setName("John");
         user.setLevel(1);
+        user.setToken("0a46b01722c63520fd88d7972a147ae9");
         user.setCoins(5000);
 
-        when(userRepository.save(any(User.class))).thenReturn(user);
 
-        User updatedUser = userService.updateLevel(user);
+        UpdateLevelRequest updatedUser = userService.updateLevel(user.getToken());
 
         assertNotNull(updatedUser);
         assertEquals(user.getId(), updatedUser.getId());

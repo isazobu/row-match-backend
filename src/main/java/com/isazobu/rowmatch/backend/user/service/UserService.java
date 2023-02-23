@@ -1,6 +1,7 @@
 package com.isazobu.rowmatch.backend.user.service;
 
 import com.isazobu.rowmatch.backend.user.dto.CreateUserRequest;
+import com.isazobu.rowmatch.backend.user.dto.UpdateLevelRequest;
 import com.isazobu.rowmatch.backend.user.model.User;
 
 import java.security.NoSuchAlgorithmException;
@@ -10,7 +11,7 @@ import java.util.List;
 public interface UserService {
     User createUser(CreateUserRequest request);
 
-    User updateLevel(User user);
+    UpdateLevelRequest updateLevel(String token);
 
 
     String createHashWithSalt(final String textToHash) throws NoSuchAlgorithmException;

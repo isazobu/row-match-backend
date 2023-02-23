@@ -3,6 +3,7 @@ package com.isazobu.rowmatch.backend.user.service;
 
 import com.isazobu.rowmatch.backend.exceptions.EntityAlreadyExistsException;
 import com.isazobu.rowmatch.backend.user.dto.CreateUserRequest;
+import com.isazobu.rowmatch.backend.user.dto.UpdateLevelRequest;
 import com.isazobu.rowmatch.backend.user.model.User;
 import com.isazobu.rowmatch.backend.user.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -48,12 +49,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateLevel(User user) {
+    public UpdateLevelRequest updateLevel(String token) throws EntityNotFoundException {
+        User user = verifyToken(token);
+
+        if (user == null) {
+            throw new EntityNotFoundException("User not found");
+        }
         user.setLevel(user.getLevel() + 1);
         user.setCoins(user.getCoins() + 25);
         userRepository.save(user);
         // user response without token
-        return user;
+        UpdateLevelRequest updateLevelRequest = new UpdateLevelRequest();
+        updateLevelRequest.setId(user.getId());
+        updateLevelRequest.setName(user.getName());
+        updateLevelRequest.setLevel(user.getLevel());
+        updateLevelRequest.setCoins(user.getCoins());
+        return updateLevelRequest;
+
 
     }
 
