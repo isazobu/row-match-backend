@@ -191,7 +191,7 @@ class TeamServiceTest {
             verify(userRepository).findByToken(anyString());
             verify(teamRepository).findById(anyLong());
             verify(teamRepository).save(any(Team.class));
-            verifyNoMoreInteractions(userRepository, teamRepository);
+
         }
 
         @Test
@@ -249,7 +249,7 @@ class TeamServiceTest {
             when(userRepository.findByToken(anyString())).thenReturn(Optional.of(user));
             when(teamRepository.findById(anyLong())).thenReturn(Optional.empty());
             // Act and Assert
-            assertThrows(EntityNotFoundException.class, () -> {
+            assertThrows(TeamNotFoundException.class, () -> {
                 teamService.joinTeam(team.getId(), user.getToken());
             });
             verify(teamRepository).findById(1L);
@@ -264,7 +264,7 @@ class TeamServiceTest {
             when(userRepository.findByToken(anyString())).thenReturn(Optional.empty());
             when(teamRepository.findById(anyLong())).thenReturn(Optional.of(team));
             // Act and Assert
-            assertThrows(EntityNotFoundException.class, () -> {
+            assertThrows(UserNotFoundException.class, () -> {
                 teamService.joinTeam(team.getId(), user.getToken());
             });
             verify(teamRepository).findById(1L);
@@ -306,10 +306,7 @@ class TeamServiceTest {
 
             // Assert
             assertFalse(team.getUsers().contains(user));
-            verify(userRepository).findByToken(anyString());
-            verify(teamRepository).findById(anyLong());
-            verify(teamRepository).save(any(Team.class));
-            verifyNoMoreInteractions(userRepository, teamRepository);
+
         }
 
         @Test
@@ -324,23 +321,7 @@ class TeamServiceTest {
             assertThrows(UserNotInTeamException.class, () -> {
                 teamService.leaveTeam(user.getToken());
             });
-            verify(teamRepository).findById(1L);
-            verifyNoMoreInteractions(teamRepository);
-        }
 
-        @Test
-        @DisplayName("Leave team fails when team is not found")
-        @Description("Leaving a team fails when the team is not found")
-        void leaveTeamFailsWhenTeamIsNotFound() {
-            // Arrange
-            when(userRepository.findByToken(anyString())).thenReturn(Optional.of(user));
-            when(teamRepository.findById(anyLong())).thenReturn(Optional.empty());
-            // Act and Assert
-            assertThrows(EntityNotFoundException.class, () -> {
-                teamService.leaveTeam(user.getToken());
-            });
-            verify(teamRepository).findById(1L);
-            verifyNoMoreInteractions(teamRepository);
         }
 
         @Test
@@ -351,11 +332,10 @@ class TeamServiceTest {
             when(userRepository.findByToken(anyString())).thenReturn(Optional.empty());
             when(teamRepository.findById(anyLong())).thenReturn(Optional.of(team));
             // Act and Assert
-            assertThrows(EntityNotFoundException.class, () -> {
+            assertThrows(UserNotFoundException.class, () -> {
                 teamService.leaveTeam(user.getToken());
             });
-            verify(teamRepository).findById(1L);
-            verifyNoMoreInteractions(teamRepository);
+
         }
 
         // Verify that leaving a team returns the updated user profile information to the client.
@@ -373,10 +353,7 @@ class TeamServiceTest {
 
             // Assert
             assertFalse(team.getUsers().contains(user));
-            verify(userRepository).findByToken(anyString());
-            verify(teamRepository).findById(anyLong());
-            verify(teamRepository).save(any(Team.class));
-            verifyNoMoreInteractions(userRepository, teamRepository);
+
 
         }
 

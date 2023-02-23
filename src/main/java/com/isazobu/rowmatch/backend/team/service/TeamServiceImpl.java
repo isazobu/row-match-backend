@@ -106,13 +106,15 @@ public class TeamServiceImpl implements TeamService {
     @Transactional
     public void leaveTeam(String token) throws TeamNotFoundException, UserNotFoundException, UserNotInTeamException {
         User user = userRepository.findByToken(token)
-                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
 
         if (user.getTeam() == null) {
             throw new UserNotInTeamException("User is not in a team");
         }
 
         Team userTeam = user.getTeam();
+
+
         // if user is the leader, delete the team
         if (userTeam.getUsers().size() == 1) {
 
