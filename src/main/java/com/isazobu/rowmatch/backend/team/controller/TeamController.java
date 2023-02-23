@@ -3,6 +3,7 @@ package com.isazobu.rowmatch.backend.team.controller;
 import com.isazobu.rowmatch.backend.team.dto.CreateTeamRequest;
 import com.isazobu.rowmatch.backend.team.dto.GetTeams;
 import com.isazobu.rowmatch.backend.team.model.Team;
+import com.isazobu.rowmatch.backend.exceptions.NotEnoughCoinsException;
 import com.isazobu.rowmatch.backend.team.service.TeamService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ public class TeamController {
 
 
     @PostMapping
-    public ResponseEntity<Team> createTeam(@RequestBody CreateTeamRequest request, @RequestHeader("Authorization") String token) {
+    public ResponseEntity<Team> createTeam(@RequestBody CreateTeamRequest request, @RequestHeader("Authorization") String token) throws NotEnoughCoinsException {
         Team team = teamService.createTeam(request, token);
         return new ResponseEntity<Team>(team, HttpStatus.CREATED);
     }
@@ -35,7 +36,7 @@ public class TeamController {
     }
 
     @PostMapping("/{teamId}/join")
-    public ResponseEntity<Team> joinTeam(@PathVariable Long teamId, @RequestHeader(value = "Authorization", required = true) String token) {
+    public ResponseEntity<Team> joinTeam(@PathVariable Long teamId, @RequestHeader(value = "Authorization", required = true) String token) throws NotEnoughCoinsException {
         Team team = teamService.joinTeam(teamId, token);
         return new ResponseEntity<>(team, HttpStatus.OK);
     }
