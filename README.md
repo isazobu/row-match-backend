@@ -12,12 +12,13 @@
 # Potential Improvements for the Project
 
 * Improve test cases and add more test scenarios for better coverage
-* Implement   DTO (Data Transfer Object) to Entity mapping
+* Implement DTO (Data Transfer Object) to Entity mapping
 * Implement reverse mapping from DTO to Entity
 * Improve Swagger Documentation
 * Implement logging to improve troubleshooting and debugging
 * Git semantic messages and small, frequent commits could have been used to improve the project's maintainability and collaboration.
 * Separate environment files for different deployment stages (e.g., development, staging, production)
+* Secret keys(e.g., DB URL, DB Password) store in .env file
 * Dockerize the application to ensure consistency across different environments and simplify deployment
 * Introduce caching with Redis to improve performance and reduce database load
 * Add monitoring tools to track application performance and identify issues early
