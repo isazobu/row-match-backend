@@ -4,6 +4,7 @@ import com.isazobu.rowmatch.backend.user.dto.CreateUserRequest;
 import com.isazobu.rowmatch.backend.user.dto.UpdateLevelRequest;
 import com.isazobu.rowmatch.backend.user.model.User;
 import com.isazobu.rowmatch.backend.user.service.UserService;
+import lombok.SneakyThrows;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -69,18 +70,20 @@ public class UserControllerTest {
     }
 
     @Test
+    @SneakyThrows
     public void updateLevel_withEmptyToken_returnsUnauthorized() {
         // Arrange
         String token = "";
 
         // Act
-        ResponseEntity<User> response = userController.updateLevel(token);
+        ResponseEntity<UpdateLevelRequest> response = userController.updateLevel(token);
 
         // Assert
         assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
     }
 
     @Test
+    @SneakyThrows
     public void updateLevel_withInvalidToken_returnsUnauthorized() {
         // Arrange
         String token = "invalidToken";
@@ -88,7 +91,7 @@ public class UserControllerTest {
         when(userService.verifyToken(token)).thenReturn(null);
 
         // Act
-        ResponseEntity<User> response = userController.updateLevel(token);
+        ResponseEntity<UpdateLevelRequest> response = userController.updateLevel(token);
 
         // Assert
         assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());

@@ -1,10 +1,7 @@
 package com.isazobu.rowmatch.backend.team.service;
 
 
-import com.isazobu.rowmatch.backend.exceptions.EntityAlreadyExistsException;
-import com.isazobu.rowmatch.backend.exceptions.TeamCapacityFullException;
-import com.isazobu.rowmatch.backend.exceptions.UserAlreadyInTeamException;
-import com.isazobu.rowmatch.backend.exceptions.UserNotInTeamException;
+import com.isazobu.rowmatch.backend.exceptions.*;
 import com.isazobu.rowmatch.backend.team.dto.CreateTeamRequest;
 import com.isazobu.rowmatch.backend.team.model.Team;
 import com.isazobu.rowmatch.backend.team.repository.TeamRepository;
@@ -48,7 +45,7 @@ class TeamServiceTest {
     @Test
     @DisplayName("Should create a team when user does not have a team and team name is unique")
     @Description("Test case to verify that a team can be created successfully")
-    void testCreateTeamSuccess() {
+    void testCreateTeamSuccess() throws NotEnoughCoinsException {
         // arrange
         String token = "valid_token";
         User user = new User();
@@ -174,7 +171,7 @@ class TeamServiceTest {
         @Test
         @DisplayName("Join team successfully")
         @Description("Join a team successfully when user is not part of any team and team is not full")
-        void joinTeamSuccessfully() {
+        void joinTeamSuccessfully() throws NotEnoughCoinsException {
             // Arrange
             when(userRepository.findByToken(anyString())).thenReturn(Optional.of(user));
             when(teamRepository.findById(anyLong())).thenReturn(Optional.of(team));

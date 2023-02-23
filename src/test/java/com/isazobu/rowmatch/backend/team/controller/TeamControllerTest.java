@@ -4,10 +4,12 @@ import com.isazobu.rowmatch.backend.exceptions.EntityAlreadyExistsException;
 import com.isazobu.rowmatch.backend.exceptions.TeamCapacityFullException;
 import com.isazobu.rowmatch.backend.team.dto.CreateTeamRequest;
 import com.isazobu.rowmatch.backend.team.model.Team;
+import com.isazobu.rowmatch.backend.exceptions.NotEnoughCoinsException;
 import com.isazobu.rowmatch.backend.team.service.TeamService;
 import com.isazobu.rowmatch.backend.user.model.User;
 import jakarta.persistence.EntityNotFoundException;
 import jdk.jfr.Description;
+import lombok.SneakyThrows;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.runner.RunWith;
@@ -34,7 +36,7 @@ public class TeamControllerTest {
 
     @Test
     @DisplayName("Create a new team successfully")
-    public void testCreateTeam() {
+    public void testCreateTeam() throws NotEnoughCoinsException {
         // Given
         CreateTeamRequest request = new CreateTeamRequest();
         request.setName("My Team");
@@ -52,6 +54,7 @@ public class TeamControllerTest {
     }
 
 
+    @SneakyThrows
     @Test
     @DisplayName("Should return joined team with status 200")
     @Description("Test case for successful joinTeam request")
@@ -74,6 +77,7 @@ public class TeamControllerTest {
     }
 
     @Test
+    @SneakyThrows
     @DisplayName("Should throw EntityNotFoundException when team not found")
     @Description("Test case for joinTeam request when team is not found")
     public void testJoinTeamTeamNotFound() {
@@ -87,6 +91,7 @@ public class TeamControllerTest {
     }
 
     @Test
+    @SneakyThrows
     @DisplayName("Should throw EntityAlreadyExistsException when user already has a team")
     @Description("Test case for joinTeam request when user already has a team")
     public void testJoinTeamUserAlreadyHasTeam() {
@@ -100,6 +105,7 @@ public class TeamControllerTest {
     }
 
     @Test
+    @SneakyThrows
     @DisplayName("Should throw TeamCapacityFullException when team is already full")
     @Description("Test case for joinTeam request when team is already full")
     public void testJoinTeamTeamCapacityFull() {

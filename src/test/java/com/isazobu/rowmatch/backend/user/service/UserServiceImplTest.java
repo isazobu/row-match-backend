@@ -106,8 +106,8 @@ public class UserServiceImplTest {
         assertNotNull(updatedUser);
         assertEquals(user.getId(), updatedUser.getId());
         assertEquals(user.getName(), updatedUser.getName());
-        assertEquals(Integer.valueOf(2), updatedUser.getLevel());
-        assertEquals(Integer.valueOf(5000 + 25), updatedUser.getCoins());
+        assertEquals(Integer.valueOf(2), Optional.of(updatedUser.getLevel()));
+        assertEquals(Integer.valueOf(5025), Optional.of(updatedUser.getCoins()));
     }
 
     @Test

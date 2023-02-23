@@ -66,7 +66,12 @@ public class TeamServiceImpl implements TeamService {
         if (teamOptional.isEmpty()) {
             throw new EntityNotFoundException("Team not found");
         }
-        return teamOptional.get();
+
+        // remove team members' tokens
+        Team team = teamOptional.get();
+        List<User> users = team.getUsers();
+        users.forEach(user -> user.setToken(null));
+        return team;
     }
 
     @Override
