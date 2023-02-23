@@ -55,7 +55,7 @@ public class TeamServiceImpl implements TeamService {
         team.setName(teamName);
         team.addUsers(user);
 
-        userRepository.save(user);
+
         return teamRepository.save(team);
     }
 
